@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView
 
-from apps.core.models import Buyer, Seller
+from apps.core.models import *
 
 
 class GamePageView(TemplateView):
@@ -10,4 +10,5 @@ class GamePageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['buyer'] = Buyer.objects.last()
         context['seller'] = Seller.objects.last()
+        context['goal'] = Goal.objects.last()
         return context

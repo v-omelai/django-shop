@@ -5,8 +5,6 @@ class Item(models.Model):
     name = models.CharField(max_length=255, unique=True)
     image = models.ImageField(upload_to='img/items/')
     weight = models.DecimalField(max_digits=3, decimal_places=1)
-    width = models.PositiveSmallIntegerField()
-    height = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return f'Item: {self.name}. Buyer Price: {self.price.buyer}. Seller Price: {self.price.seller}'  # noqa
@@ -22,6 +20,15 @@ class Price(models.Model):
         return f'Item: {self.item.name}. Buyer Price: {self.buyer}. Seller Price: {self.seller}'
 
 
+class Goal(models.Model):
+    difficulty = models.PositiveIntegerField()
+    balance = models.PositiveIntegerField(blank=True, null=True)
+    weight = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
+
+    def __str__(self):
+        return f'Difficulty: {self.difficulty}. Balance: {self.balance}. Weight: {self.weight}'
+
+
 class Entity(models.Model):
     name = models.CharField(max_length=255)
     balance = models.PositiveIntegerField()
@@ -30,6 +37,7 @@ class Entity(models.Model):
         abstract = True
 
 
+# Developer
 class Buyer(Entity):
     image = models.ImageField(upload_to='img/buyers/', default='static/img/buyer.jpg')
 
@@ -37,8 +45,11 @@ class Buyer(Entity):
         return f'ID: {self.id}. Name: {self.name}'  # noqa
 
 
+# Player
 class Seller(Entity):
     image = models.ImageField(upload_to='img/sellers/', default='static/img/seller.jpg')
+
+    goal = models.ForeignKey(Goal, on_delete=models.CASCADE, related_name='sellers')
 
     def __str__(self):
         return f'ID: {self.id}. Name: {self.name}'  # noqa
