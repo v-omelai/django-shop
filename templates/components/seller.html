@@ -1,0 +1,10 @@
+<article class="no-round">
+    <div class="row">
+        <img class="circle large" src="{{ seller.image.url }}" alt="seller">
+        <div class="max">
+            <h5>{{ seller.name }} (You)</h5>
+            <p>Available items</p>
+        </div>
+    </div>
+    {% include 'components/items.html' %}
+</article>
