@@ -4,7 +4,6 @@ from django.db import models
 class Item(models.Model):
     name = models.CharField(max_length=255, unique=True)
     image = models.ImageField(upload_to='img/items/')
-    weight = models.DecimalField(max_digits=3, decimal_places=1)
 
     def __str__(self):
         return f'Item: {self.name}. Buyer Price: {self.price.buyer}. Seller Price: {self.price.seller}'  # noqa
@@ -22,11 +21,10 @@ class Price(models.Model):
 
 class Goal(models.Model):
     difficulty = models.PositiveIntegerField()
-    balance = models.PositiveIntegerField(blank=True, null=True)
-    weight = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
+    balance = models.PositiveIntegerField()
 
     def __str__(self):
-        return f'Difficulty: {self.difficulty}. Balance: {self.balance}. Weight: {self.weight}'
+        return f'Difficulty: {self.difficulty}. Balance: {self.balance}'
 
 
 class Entity(models.Model):
