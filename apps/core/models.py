@@ -13,7 +13,7 @@ class Price(models.Model):
     buyer = models.PositiveIntegerField()
     seller = models.PositiveIntegerField()
 
-    item = models.OneToOneField(Item, on_delete=models.CASCADE, null=False, blank=False)
+    item = models.OneToOneField(Item, on_delete=models.CASCADE, null=True, blank=False)
 
     def __str__(self):
         return f'Item: {self.item.name}. Buyer Price: {self.buyer}. Seller Price: {self.seller}'
@@ -37,7 +37,7 @@ class Entity(models.Model):
 
 # Developer
 class Buyer(Entity):
-    image = models.ImageField(upload_to='img/buyers/', default='static/img/buyer.jpg')
+    image = models.ImageField(upload_to='buyers/', default='buyers/profile.jpg')
 
     def __str__(self):
         return f'ID: {self.id}. Name: {self.name}'  # noqa
@@ -45,9 +45,9 @@ class Buyer(Entity):
 
 # Player
 class Seller(Entity):
-    image = models.ImageField(upload_to='img/sellers/', default='static/img/seller.jpg')
+    image = models.ImageField(upload_to='sellers/', default='sellers/profile.png')
 
-    goal = models.ForeignKey(Goal, on_delete=models.CASCADE, related_name='sellers')
+    goal = models.ForeignKey(Goal, on_delete=models.PROTECT, related_name='sellers')
 
     def __str__(self):
         return f'ID: {self.id}. Name: {self.name}'  # noqa
