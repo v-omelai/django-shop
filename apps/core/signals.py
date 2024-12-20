@@ -1,0 +1,9 @@
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+from .models import Price
+
+
+@receiver(post_delete, sender=Price)
+def delete_related_item(sender, instance, **kwargs):
+    if instance.item:
+        instance.item.delete()
