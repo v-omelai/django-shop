@@ -28,7 +28,7 @@ class Goal(models.Model):
 
 
 class Entity(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=24)
     balance = models.PositiveIntegerField()
 
     class Meta:
