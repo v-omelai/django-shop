@@ -47,6 +47,7 @@ class Buyer(Entity):
 class Seller(Entity):
     image = models.ImageField(upload_to='sellers/', default='sellers/profile.png')
 
+    buyer = models.OneToOneField(Buyer, on_delete=models.CASCADE, null=False, blank=False, related_name='seller')
     goal = models.ForeignKey(Goal, on_delete=models.PROTECT, related_name='sellers')
 
     def __str__(self):
