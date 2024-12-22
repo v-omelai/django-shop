@@ -23,7 +23,7 @@ from shop import settings
 
 urlpatterns = (
         [
-            path('', GamePageView.as_view(), name='game'),
+            path('', HomePageView.as_view(), name='home'),
             path('admin/', admin.site.urls),
         ]
         + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

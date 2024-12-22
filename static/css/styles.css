@@ -54,10 +54,10 @@ body {
 
 .sell {}
 
-button.confirm {
+button.confirm, div.success {
     background-color: #78dc77;
 }
 
-button.cancel {
+button.cancel, div.error {
     background-color: #ffb4a9;
 }
