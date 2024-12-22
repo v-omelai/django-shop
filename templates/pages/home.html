@@ -1,0 +1,12 @@
+{% load static %}
+
+{% extends 'pages/base.html' %}
+
+{% block content %}
+    <main class="responsive center-align middle-align">
+        <div class="row">
+            {% include 'components/loading.html' %}
+        </div>
+    </main>
+    <script src="{% static 'js/loading.js' %}"></script>
+{% endblock content %}
