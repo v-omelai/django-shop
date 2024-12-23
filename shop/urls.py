@@ -25,7 +25,9 @@ from shop import settings
 urlpatterns = (
         [
             path('', HomePageView.as_view(), name='home'),
+            path('game/<seller>/', GamePageView.as_view(), name='game'),
             path('admin/', admin.site.urls),
+            path('api/game/', GameAPIView.as_view(), name='api-game'),
             path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
             path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
         ]
