@@ -60,7 +60,7 @@ class Seller(Entity):
 class Inventory(models.Model):
     quantity = models.PositiveIntegerField()
 
-    item = models.OneToOneField(Item, on_delete=models.CASCADE, null=False, blank=False)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=False, blank=False)
 
     class Meta:
         abstract = True
