@@ -4,6 +4,7 @@ import random
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import Http404
+from django.urls import reverse
 from django.views.generic import TemplateView
 from rest_framework import status
 from rest_framework.response import Response
@@ -38,9 +39,11 @@ class GamePageView(TemplateView):
         context = super().get_context_data(**kwargs)
         try:
             seller = Seller.objects.get(id=kwargs.get('seller'))  # noqa
+            buyer = seller.buyer
         except (ValidationError, Seller.DoesNotExist):  # noqa
             raise Http404('Not found')
         context['seller'] = seller
+        context['buyer'] = buyer
         return context
 
 
@@ -65,4 +68,7 @@ class GameAPIView(APIView):
         except Exception as e:
             logger.error(e)
             return Response({'created': False}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return Response({'created': True}, status=status.HTTP_201_CREATED)
+        return Response({
+            'created': True,
+            'redirect': reverse('game', kwargs={'seller': seller.id})
+        }, status=status.HTTP_201_CREATED)
