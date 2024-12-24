@@ -24,7 +24,7 @@ from shop import settings
 
 urlpatterns = (
         [
-            path('', HomePageView.as_view(), name='home'),
+            path('', LoadingPageView.as_view(), name='loading'),
             path('game/<seller>/', GamePageView.as_view(), name='game'),
             path('admin/', admin.site.urls),
             path('api/game/', GameAPIView.as_view(), name='api-game'),

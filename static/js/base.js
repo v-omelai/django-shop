@@ -4,7 +4,7 @@ function success(seconds) {
     setTimeout(() => {
         success.classList.remove('active');
     }, seconds * 1000);
-};
+}
 
 function error(seconds) {
     const error = document.querySelector('#snackbar-error');
@@ -12,7 +12,7 @@ function error(seconds) {
     setTimeout(() => {
         error.classList.remove('active');
     }, seconds * 1000);
-};
+}
 
 function sleep(seconds) {
     return new Promise(resolve => setTimeout(resolve, seconds * 1000));

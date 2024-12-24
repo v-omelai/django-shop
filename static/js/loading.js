@@ -3,7 +3,7 @@ async function initiateGame() {
         const response = await fetch('/api/game/', {
             method: 'POST',
             headers: {
-                'X-CSRFToken': getCookie('csrftoken'),
+                'X-CSRFToken': window.getCookie('csrftoken'),
                 'Content-Type': 'application/json',
             },
         });
