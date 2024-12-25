@@ -28,22 +28,7 @@
             </div>
         </div>
     </main>
-    <dialog class="max" id="dialog-do-not-show">
-        <h5>Before you start playing...</h5>
-        <div>
-            <p>Since the game currently does not support authorization and authentication,
-                your unique player identifier is: <b>{{ seller.id }}</b>.</p>
-            <p><b>Important</b>: Please do not share this identifier to ensure the security of your game progress.</p>
-        </div>
-        <nav class="left-align no-space">
-            <label class="checkbox">
-                <input type="checkbox" id="checkbox-do-not-show">
-                <span>Do not show this message again.</span>
-            </label>
-        </nav>
-        <nav class="left-align no-space">
-            <button class="primary" id="button-do-not-show">Confirm</button>
-        </nav>
-    </dialog>
+    {% include 'components/message.html' %}
+    {% include 'components/settings.html' %}
     <script src="{% static 'js/game.js' %}"></script>
 {% endblock content %}

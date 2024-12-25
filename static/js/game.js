@@ -1,21 +1,21 @@
-function handleCheckbox() {
+function handleMessageCheckbox() {
     localStorage.setItem('show', JSON.stringify(!this.checked));
 }
 
-function handleButton() {
-    dialog.close();
+function handleMessageButton() {
+    messageDialog.close();
 }
 
-function handleModal() {
+function handleMessageModal() {
     const show = localStorage.getItem('show') || true;
-    if (JSON.parse(show)) dialog.show()
+    if (JSON.parse(show)) messageDialog.show()
 }
 
-const dialog = document.querySelector('#dialog-do-not-show');
-const checkbox = document.querySelector('#checkbox-do-not-show');
-const button = document.querySelector('#button-do-not-show');
+const messageDialog = document.querySelector('#dialog-do-not-show');
+const messageCheckbox = document.querySelector('#checkbox-do-not-show');
+const messageButton = document.querySelector('#button-do-not-show');
 
-checkbox.addEventListener('change', handleCheckbox);
-button.addEventListener('click', handleButton);
+messageCheckbox.addEventListener('change', handleMessageCheckbox);
+messageButton.addEventListener('click', handleMessageButton);
 
-document.addEventListener('DOMContentLoaded', handleModal);
+document.addEventListener('DOMContentLoaded', handleMessageModal);
