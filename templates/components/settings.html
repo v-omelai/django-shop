@@ -7,12 +7,12 @@
     </div>
     <div class="field label prefix border">
         <img class="circle" src="{{ seller.image.url }}">
-        <input type="file">
+        <input id="image-settings" type="file">
         <input type="text">
         <label>Upload your image</label>
     </div>
     <nav class="left-align">
-        <button class="border" id="button-settings-cancel">Cancel</button>
-        <button class="primary" id="button-settings-confirm">Confirm</button>
+        <button class="border" data-ui="#dialog-settings">Cancel</button>
+        <button class="primary" id="button-settings">Confirm</button>
     </nav>
 </dialog>
