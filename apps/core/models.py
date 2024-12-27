@@ -1,11 +1,13 @@
 import uuid
 
 from django.db import models
+from django_cleanup import cleanup
 
 
+@cleanup.ignore
 class Item(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    image = models.ImageField(upload_to='img/items/')
+    image = models.ImageField(upload_to='items/')
 
     def __str__(self):
         return f'Item: {self.name}. Buyer Price: {self.price.buyer}. Seller Price: {self.price.seller}'  # noqa
