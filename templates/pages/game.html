@@ -30,6 +30,9 @@
     </main>
     {% include 'components/message.html' %}
     {% include 'components/settings.html' %}
+    <script>
+        const API_UPDATE_SELLER_URL = "{% url 'api-update-seller' seller.id %}";
+    </script>
     <script src="{% static 'js/components/message.js' %}"></script>
     <script src="{% static 'js/components/settings.js' %}"></script>
     <script src="{% static 'js/game.js' %}"></script>

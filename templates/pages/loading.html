@@ -8,5 +8,8 @@
             {% include 'components/loading.html' %}
         </div>
     </main>
+    <script>
+        const API_CREATE_SELLER_URL = "{% url 'api-create-seller' %}";
+    </script>
     <script src="{% static 'js/loading.js' %}"></script>
 {% endblock content %}

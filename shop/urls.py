@@ -22,15 +22,23 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from apps.core.views import *
 from shop import settings
 
+pages = [
+    path('', LoadingPageView.as_view(), name='loading'),
+    path('game/<seller>/', GamePageView.as_view(), name='game'),
+    path('admin/', admin.site.urls),
+]
+
+endpoints = [
+    path('api/seller/', CreateSellerView.as_view(), name='api-create-seller'),
+    path('api/seller/<seller>/', UpdateSellerView.as_view(), name='api-update-seller'),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+]
+
 urlpatterns = (
-        [
-            path('', LoadingPageView.as_view(), name='loading'),
-            path('game/<seller>/', GamePageView.as_view(), name='game'),
-            path('admin/', admin.site.urls),
-            path('api/game/', GameAPIView.as_view(), name='api-game'),
-            path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-            path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-        ]
+        []
+        + pages
+        + endpoints
         + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
         + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
