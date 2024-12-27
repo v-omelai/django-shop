@@ -1,17 +1,20 @@
 <dialog id="dialog-settings">
     <h5>Settings</h5>
     <div class="field label border">
-        <input type="text" id="text-settings">
+        <input type="text" id="text-settings" maxlength="24">
         <label>Change your name</label>
         <span id="seller-name-helper" class="helper">Your name: {{ seller.name }}</span>
     </div>
     <div class="field label prefix border">
-        <img class="circle" src="{{ seller.image.url }}">
+        <img id="seller-image-helper" class="circle" src="{{ seller.image.url }}">
         <input id="image-settings" type="file">
         <input type="text">
         <label>Upload your image</label>
     </div>
-    <nav class="left-align">
+    <div class="card">
+        <div id="croppie-container"></div>
+    </div>
+    <nav class="center-align">
         <button class="border" data-ui="#dialog-settings">Cancel</button>
         <button class="primary" id="button-settings">Confirm</button>
     </nav>
