@@ -29,7 +29,7 @@ async function handleSettingsButton() {
         if (croppieInstance) {
             await croppieInstance.result({
                 type: 'base64',
-                format: 'jpeg',
+                format: 'png',
                 circle: false,
             }).then((image) => {
                 data['image'] = image;
