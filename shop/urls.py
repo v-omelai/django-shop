@@ -31,6 +31,7 @@ pages = [
 endpoints = [
     path('api/seller/', CreateSellerView.as_view(), name='api-create-seller'),
     path('api/seller/<seller>/', UpdateSellerView.as_view(), name='api-update-seller'),
+    path('api/transaction/', CreateTransactionView.as_view(), name='api-create-transaction'),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
 ]

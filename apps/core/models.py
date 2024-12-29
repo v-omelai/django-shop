@@ -106,3 +106,18 @@ class SellerInventory(Inventory):
             f'Seller ID: {self.seller.id}. '  # noqa
             f'Seller Name: {self.seller.name}'
         )
+
+
+class Transaction(Timestamp):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('canceled', 'Canceled'),
+    ]
+
+    buyer = models.ForeignKey(Buyer, on_delete=models.CASCADE, related_name='transactions')
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE, related_name='transactions')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+
+    def __str__(self):
+        return f'ID: {self.id}. Status: {self.status.capitalize()}'  # noqa

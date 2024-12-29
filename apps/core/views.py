@@ -97,3 +97,14 @@ class UpdateSellerView(UpdateAPIView):
     serializer_class = UpdateSellerSerializer
     lookup_field = 'id'
     lookup_url_kwarg = 'seller'
+
+
+class CreateTransactionView(CreateAPIView):
+    queryset = Transaction.objects.all()  # noqa
+    serializer_class = CreateTransactionSerializer
+
+    def perform_create(self, serializer):
+        data = serializer.validated_data
+        buyer = Buyer.objects.get(id=data.get('buyer'))  # noqa
+        seller = Seller.objects.get(id=data.get('seller'))  # noqa
+        t = Transaction.objects.create(buyer=buyer, seller=seller)  # noqa

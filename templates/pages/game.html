@@ -32,6 +32,9 @@
     {% include 'components/settings.html' %}
     <script>
         const API_UPDATE_SELLER_URL = "{% url 'api-update-seller' seller.id %}";
+        const API_CREATE_TRANSACTION_URL = "{% url 'api-create-transaction' %}";
+        const API_SELLER_ID = "{{ seller.id }}";
+        const API_BUYER_ID = "{{ buyer.id }}";
     </script>
     <script src="{% static 'js/components/message.js' %}"></script>
     <script src="{% static 'js/components/settings.js' %}"></script>

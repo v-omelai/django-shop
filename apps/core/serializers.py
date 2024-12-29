@@ -29,3 +29,15 @@ class UpdateSellerSerializer(serializers.ModelSerializer):
             'name': {'required': False},
             'image': {'required': False},
         }
+
+
+class ItemSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=255)
+    quantity = serializers.IntegerField()
+
+
+class CreateTransactionSerializer(serializers.Serializer):
+    buyer = serializers.CharField(max_length=36)
+    seller = serializers.CharField(max_length=36)
+    buy = ItemSerializer(many=True)
+    sell = ItemSerializer(many=True)
