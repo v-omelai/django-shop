@@ -4,7 +4,10 @@
             {% if i == "&nbsp;" %}
                 {{ i|safe }}
             {% else %}
-                    <img class="item" src="{{ i.item.image.url }}">
+                {% if i.quantity > 1 %}
+                    <div class="badge no-round primary quantity">{{ i.quantity }}</div>
+                {% endif %}
+                <img class="item" src="{{ i.item.image.url }}">
             {% endif %}
         </div>
     {% endfor %}
