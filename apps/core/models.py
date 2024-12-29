@@ -32,8 +32,16 @@ class Price(Timestamp):
 
 
 class Goal(Timestamp):
+    RANK_CHOICES = [
+        ('rookie', 'Rookie'),
+        ('experienced', 'Experienced'),
+        ('professional', 'Professional'),
+        ('veteran', 'Veteran'),
+        ('expert', 'Expert'),
+    ]
     difficulty = models.PositiveIntegerField()
     balance = models.PositiveIntegerField()
+    rank = models.CharField(max_length=20, choices=RANK_CHOICES, default='rookie')
 
     def __str__(self):
         return f'Difficulty: {self.difficulty}. Balance: {self.balance}'

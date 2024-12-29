@@ -3,7 +3,7 @@
         <img id="seller-image" class="circle large" src="{{ seller.image.url }}" alt="seller">
         <div class="max">
             <h5 id="seller-name">{{ seller.name }} (You)</h5>
-            <p>Available items</p>
+            <p>Rank: {{ seller.goal.rank|capfirst }}</p>
         </div>
     </div>
     {% with inventory.seller as value %}

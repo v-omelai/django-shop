@@ -27,12 +27,13 @@ def create_or_update_price(item_name, buyer, seller):
         p.save()
 
 
-def create_or_update_goal(difficulty, balance):
+def create_or_update_goal(difficulty, balance, rank):
     g = Goal.objects.filter(difficulty=difficulty).first()  # noqa
     if not g:
-        Goal.objects.create(difficulty=difficulty, balance=balance)  # noqa
+        Goal.objects.create(difficulty=difficulty, balance=balance, rank=rank)  # noqa
     else:
         g.balance = balance
+        g.rank = rank
         g.save()
 
 
@@ -96,12 +97,13 @@ def populate():
         buyer, seller = value
         create_or_update_price(key, buyer, seller)
 
-    for key, value in {
-        1: 11,   # Sell: Apple, Carrot
-        2: 15,   # Buy: Carrot. Sell: Cabbage, Potatoes
-        3: 202,  # Buy: Cabbage, Potatoes. Sell: Raspberry
-    }.items():
-        create_or_update_goal(key, value)
+    for obj in (
+        (1, 11, 'rookie'),         # Sell: Apple, Carrot
+        (2, 15, 'experienced'),    # Buy: Carrot. Sell: Cabbage, Potatoes
+        (3, 202, 'professional'),  # Buy: Cabbage, Potatoes. Sell: Raspberry
+    ):
+        difficulty, balance, rank = obj
+        create_or_update_goal(difficulty, balance, rank)
 
 
 if __name__ == '__main__':
