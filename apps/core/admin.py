@@ -4,7 +4,11 @@ from django.utils.safestring import mark_safe
 from apps.core.models import *
 
 
-class PriceAdmin(admin.ModelAdmin):
+class TimestampAdmin(admin.ModelAdmin):
+    readonly_fields = ('created_at', 'updated_at',)
+
+
+class PriceAdmin(TimestampAdmin):
     def get_deleted_objects(self, objs, request):
         deleted_objects, model_count, perms_needed, protected = super().get_deleted_objects(objs, request)
         items = 0
@@ -21,7 +25,7 @@ class PriceAdmin(admin.ModelAdmin):
         return deleted_objects, model_count, perms_needed, protected
 
 
-class SellerAdmin(admin.ModelAdmin):
+class SellerAdmin(TimestampAdmin):
     def get_deleted_objects(self, objs, request):
         deleted_objects, model_count, perms_needed, protected = super().get_deleted_objects(objs, request)
         buyers = 0
@@ -42,10 +46,10 @@ class SellerAdmin(admin.ModelAdmin):
         return deleted_objects, model_count, perms_needed, protected
 
 
-admin.site.register(Item)
+admin.site.register(Item, TimestampAdmin)
 admin.site.register(Price, PriceAdmin)
-admin.site.register(Buyer)
+admin.site.register(Buyer, TimestampAdmin)
 admin.site.register(Seller, SellerAdmin)
-admin.site.register(BuyerInventory)
-admin.site.register(SellerInventory)
-admin.site.register(Goal)
+admin.site.register(BuyerInventory, TimestampAdmin)
+admin.site.register(SellerInventory, TimestampAdmin)
+admin.site.register(Goal, TimestampAdmin)

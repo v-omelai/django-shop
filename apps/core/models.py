@@ -4,8 +4,16 @@ from django.db import models
 from django_cleanup import cleanup
 
 
+class Timestamp(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
 @cleanup.ignore
-class Item(models.Model):
+class Item(Timestamp):
     name = models.CharField(max_length=255, unique=True)
     image = models.ImageField(upload_to='items/')
 
@@ -13,7 +21,7 @@ class Item(models.Model):
         return f'Item: {self.name}. Buyer Price: {self.price.buyer}. Seller Price: {self.price.seller}'  # noqa
 
 
-class Price(models.Model):
+class Price(Timestamp):
     buyer = models.PositiveIntegerField()
     seller = models.PositiveIntegerField()
 
@@ -23,7 +31,7 @@ class Price(models.Model):
         return f'Item: {self.item.name}. Buyer Price: {self.buyer}. Seller Price: {self.seller}'
 
 
-class Goal(models.Model):
+class Goal(Timestamp):
     difficulty = models.PositiveIntegerField()
     balance = models.PositiveIntegerField()
 
@@ -31,7 +39,7 @@ class Goal(models.Model):
         return f'Difficulty: {self.difficulty}. Balance: {self.balance}'
 
 
-class Entity(models.Model):
+class Entity(Timestamp):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=24)
     balance = models.PositiveIntegerField()
@@ -59,7 +67,7 @@ class Seller(Entity):
         return f'ID: {self.id}. Name: {self.name}'  # noqa
 
 
-class Inventory(models.Model):
+class Inventory(Timestamp):
     quantity = models.PositiveIntegerField()
 
     item = models.ForeignKey(Item, on_delete=models.CASCADE, null=False, blank=False)
