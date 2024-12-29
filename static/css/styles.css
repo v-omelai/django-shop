@@ -61,3 +61,8 @@ button.confirm, div.success {
 button.cancel, div.error {
     background-color: #ffb4a9;
 }
+
+img.item {
+    width: 24px;
+    height: 24px;
+}

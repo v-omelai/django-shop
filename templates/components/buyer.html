@@ -6,5 +6,7 @@
             <p>Available items</p>
         </div>
     </div>
-    {% include 'components/items.html' %}
+    {% with inventory.buyer as value %}
+        {% include 'components/items.html' with inventory=value %}
+    {% endwith %}
 </article>

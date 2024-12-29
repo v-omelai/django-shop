@@ -5,5 +5,7 @@
             <p>Buy from {{ buyer.name }}</p>
         </div>
     </div>
-    {% include 'components/items.html' %}
+    {% with inventory.empty as value %}
+        {% include 'components/items.html' with inventory=value %}
+    {% endwith %}
 </article>

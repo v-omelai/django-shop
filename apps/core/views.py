@@ -34,17 +34,32 @@ class LoadingPageView(TemplateView):
 class GamePageView(TemplateView):
     template_name = 'pages/game.html'
 
+    @classmethod
+    def scale(cls, entity=None):
+        cells = ['&nbsp;'] * 12
+        if entity:
+            inventory = entity.inventory.all()
+            items = list(inventory)
+            cells = items + cells[len(items):]
+        return cells
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
             seller = Seller.objects.get(id=kwargs.get('seller'))  # noqa
             buyer = seller.buyer
-            goal = seller.goal
+
+            context.update({
+                'seller': seller,
+                'buyer': buyer,
+                'inventory': {
+                    'empty': self.scale(),
+                    'seller': self.scale(seller),
+                    'buyer': self.scale(buyer),
+                }
+            })
         except (ValidationError, Seller.DoesNotExist):  # noqa
             raise Http404('Not found')
-        context['seller'] = seller
-        context['buyer'] = buyer
-        context['goal'] = goal
         return context
 
 
