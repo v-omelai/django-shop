@@ -24,6 +24,7 @@ from shop import settings
 
 pages = [
     path('', LoadingPageView.as_view(), name='loading'),
+    path('congratulations/', CongratulationsPageView.as_view(), name='congratulations'),
     path('game/<seller>/', GamePageView.as_view(), name='game'),
     path('admin/', admin.site.urls),
 ]

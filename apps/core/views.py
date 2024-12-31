@@ -28,6 +28,21 @@ class LoadingPageView(TemplateView):
         return context
 
 
+class CongratulationsPageView(TemplateView):
+    template_name = 'pages/congratulations.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'text': random.choice([
+                '🥳 Congratulations!',
+                '🏆 You\'ve nailed it!',
+                '🎮 The game is over!',
+            ])
+        })
+        return context
+
+
 class GamePageView(TemplateView):
     template_name = 'pages/game.html'
 

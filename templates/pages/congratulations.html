@@ -1,0 +1,12 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <main class="responsive center-align middle-align">
+        <div class="row">
+            {% include 'components/congratulations.html' %}
+        </div>
+    </main>
+    <script src="{% static 'js/congratulations.js' %}"></script>
+{% endblock content %}
