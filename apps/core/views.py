@@ -1,13 +1,12 @@
 import logging
 import random
 
-from django.core.exceptions import ValidationError
-from django.http import Http404
+from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from rest_framework.generics import UpdateAPIView, CreateAPIView
 
-from apps.core.serializers import *
-
+from apps.core.models import Seller, Transaction
+from apps.core.serializers import CreateSellerSerializer, UpdateSellerSerializer, CreateTransactionSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -17,13 +16,15 @@ class LoadingPageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['text'] = random.choice([
-            'Slicing onions...',
-            'Chopping carrots...',
-            'Boiling broccoli...',
-            'Juicing oranges...',
-            'Packing watermelons...',
-        ])
+        context.update({
+            'text': random.choice([
+                'Slicing onions...',
+                'Chopping carrots...',
+                'Boiling broccoli...',
+                'Juicing oranges...',
+                'Packing watermelons...',
+            ])
+        })
         return context
 
 
@@ -41,21 +42,17 @@ class GamePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        try:
-            seller = Seller.objects.get(id=kwargs.get('seller', ''))  # noqa
-            buyer = seller.buyer
-
-            context.update({
-                'seller': seller,
-                'buyer': buyer,
-                'inventory': {
-                    'empty': self.scale(),
-                    'seller': self.scale(seller),
-                    'buyer': self.scale(buyer),
-                }
-            })
-        except (ValidationError, Seller.DoesNotExist):  # noqa
-            raise Http404('Not found')
+        seller = get_object_or_404(Seller, id=kwargs.get('seller'))
+        buyer = seller.buyer
+        context.update({
+            'seller': seller,
+            'buyer': buyer,
+            'inventory': {
+                'empty': self.scale(),
+                'seller': self.scale(seller),
+                'buyer': self.scale(buyer),
+            }
+        })
         return context
 
 
