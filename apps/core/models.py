@@ -39,7 +39,7 @@ class Goal(Timestamp):
         ('veteran', 'Veteran'),
         ('expert', 'Expert'),
     ]
-    difficulty = models.PositiveIntegerField()
+    difficulty = models.PositiveIntegerField(unique=True)
     balance = models.PositiveIntegerField()
     rank = models.CharField(max_length=20, choices=RANK_CHOICES, default='rookie')
     json = models.JSONField(default=dict)
