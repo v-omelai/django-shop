@@ -96,7 +96,7 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                     if BuyerInventory.objects.filter(  # noqa
                             buyer=buyer, item=item, quantity__gte=quantity
                     ).exists():
-                        seller.balance -= item.price.seller * quantity
+                        seller.balance -= item.price.buyer * quantity
                     else:
                         raise TransactionException
                 # Player sells
@@ -105,7 +105,7 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                     if SellerInventory.objects.filter(  # noqa
                             seller=seller, item=item, quantity__gte=quantity
                     ).exists():
-                        seller.balance += item.price.buyer * quantity
+                        seller.balance += item.price.seller * quantity
                     else:
                         raise TransactionException
 

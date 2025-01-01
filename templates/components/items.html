@@ -8,6 +8,12 @@
                     <div class="badge no-round primary quantity">{{ i.quantity }}</div>
                 {% endif %}
                 <img class="item" src="{{ i.item.image.url }}">
+                <div class="tooltip no-space top">
+                    {{ i.item.name }}
+                    {% if entity == "buyer" %}{{ i.item.price.buyer }}
+                    {% elif entity == "seller" %}{{ i.item.price.seller }}
+                    {% endif %} UAH
+                </div>
             {% endif %}
         </div>
     {% endfor %}

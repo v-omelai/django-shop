@@ -6,7 +6,7 @@
             <p>Rank: {{ seller.goal.rank|capfirst }}</p>
         </div>
     </div>
-    {% with inventory.seller as value %}
-        {% include 'components/items.html' with inventory=value %}
+    {% with value=inventory.seller entity="seller" %}
+        {% include 'components/items.html' with inventory=value entity=entity %}
     {% endwith %}
 </article>
