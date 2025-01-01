@@ -27,14 +27,14 @@ def create_or_update_price(item_name, buyer, seller):
         p.save()
 
 
-def create_or_update_goal(difficulty, balance, rank, code):
+def create_or_update_goal(difficulty, balance, rank, items):
     g = Goal.objects.filter(difficulty=difficulty).first()  # noqa
     if not g:
-        Goal.objects.create(difficulty=difficulty, balance=balance, rank=rank, code=code)  # noqa
+        Goal.objects.create(difficulty=difficulty, balance=balance, rank=rank, json=items)  # noqa
     else:
         g.balance = balance
         g.rank = rank
-        g.code = code
+        g.json = items
         g.save()
 
 
@@ -98,52 +98,41 @@ def populate():
         buyer, seller = value
         create_or_update_price(key, buyer, seller)
 
-    rookie = '''
-# Add an apple
-apple = Item.objects.get(name='Apple')
-SellerInventory.objects.create(seller=seller, quantity=1, item=apple)
-
-# Add a carrot
-carrot = Item.objects.get(name='Carrot')
-SellerInventory.objects.create(seller=seller, quantity=1, item=carrot)
-    '''.strip()
-
-    experienced = '''
-# Add a carrot
-carrot = Item.objects.get(name='Carrot')
-BuyerInventory.objects.create(buyer=buyer, quantity=1, item=carrot)
-
-# Add a cabbage
-cabbage = Item.objects.get(name='Cabbage')
-SellerInventory.objects.create(seller=seller, quantity=1, item=cabbage)
-
-# Add potatoes
-potatoes = Item.objects.get(name='Potatoes')
-SellerInventory.objects.create(seller=seller, quantity=1, item=potatoes)
-    '''.strip()
-
-    professional = '''
-# Add a cabbage
-cabbage = Item.objects.get(name='Cabbage')
-BuyerInventory.objects.create(buyer=buyer, quantity=1, item=cabbage)
-
-# Add potatoes
-potatoes = Item.objects.get(name='Potatoes')
-BuyerInventory.objects.create(buyer=buyer, quantity=1, item=potatoes)
-
-# Add a raspberry
-raspberry = Item.objects.get(name='Raspberry')
-SellerInventory.objects.create(seller=seller, quantity=1, item=raspberry)
-    '''.strip()
-
     for obj in (
-        (1, 8, 'rookie', rookie),                # Sell: Apple, Carrot
-        (2, 12, 'experienced', experienced),     # Buy: Carrot. Sell: Cabbage, Potatoes
-        (3, 189, 'professional', professional),  # Buy: Cabbage, Potatoes. Sell: Raspberry
+        (1, 8, 'rookie', ROOKIE),                # Sell: Apple, Carrot
+        (2, 12, 'experienced', EXPERIENCED),     # Buy: Carrot. Sell: Cabbage, Potatoes
+        (3, 189, 'professional', PROFESSIONAL),  # Buy: Cabbage, Potatoes. Sell: Raspberry
     ):
-        difficulty, balance, rank, code = obj
-        create_or_update_goal(difficulty, balance, rank, code)
+        difficulty, balance, rank, items = obj
+        create_or_update_goal(difficulty, balance, rank, items)
 
+
+ROOKIE = {'items': {
+    'seller': [
+        {'name': 'apple'},
+        {'name': 'carrot'},
+    ],
+}}
+
+EXPERIENCED = {'items': {
+    'buyer': [
+        {'name': 'carrot'},
+    ],
+    'seller': [
+        {'name': 'cabbage'},
+        {'name': 'potatoes'},
+    ],
+}}
+
+PROFESSIONAL = {'items': {
+    'buyer': [
+        {'name': 'cabbage'},
+        {'name': 'potatoes'},
+    ],
+    'seller': [
+        {'name': 'raspberry'},
+    ],
+}}
 
 if __name__ == '__main__':
     populate()

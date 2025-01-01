@@ -3,7 +3,10 @@ from django.urls import reverse
 from drf_extra_fields.fields import Base64ImageField
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
-from .models import *
+from rest_framework.generics import get_object_or_404
+
+from apps.core.exceptions import TransactionException
+from apps.core.models import Seller, Buyer, SellerInventory, Goal, Transaction, Item, BuyerInventory
 
 
 class CreateSellerSerializer(serializers.ModelSerializer):
@@ -21,19 +24,14 @@ class CreateSellerSerializer(serializers.ModelSerializer):
     def save(self):
         with transaction.atomic():
             # Initiate a buyer
-            buyer = Buyer.objects.create(name='Vitalii Omelai', balance=500)  # noqa
+            buyer = Buyer.objects.create(name='Vitalii Omelai')  # noqa
 
             # Initiate a seller
             goal = Goal.objects.get(difficulty=1)  # noqa
             seller = self.instance = Seller.objects.create(name='Player', balance=0, buyer=buyer, goal=goal)  # noqa
 
-            # Add an apple
-            apple = Item.objects.get(name='Apple')  # noqa
-            SellerInventory.objects.create(seller=seller, quantity=1, item=apple)  # noqa
-
-            # Add a carrot
-            carrot = Item.objects.get(name='Carrot')  # noqa
-            SellerInventory.objects.create(seller=seller, quantity=1, item=carrot)  # noqa
+            # Create items
+            exec(goal.code)
 
         return self.instance
 
@@ -84,31 +82,57 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
         validated_data = self.validated_data
         buyer = validated_data.get('buyer')
         seller = validated_data.get('seller')
-        print(validated_data)
+        items = validated_data.get('items', [])
         t = self.instance = Transaction.objects.create(buyer=buyer, seller=seller)  # noqa
-        processed = False
 
-        with transaction.atomic():
-            t.status = 'completed'
+        try:
+            if seller.goal is None:
+                raise TransactionException
 
-            buy = validated_data.get('buy', [])
+            with transaction.atomic():
+                for dictionary in items:
+                    name = dictionary.get('name', '').capitalize()
+                    quantity = dictionary.get('quantity', 1)
+                    operation = dictionary.get('operation')
 
-            sell = validated_data.get('sell', [])
-            for item in sell:
-                inventory = SellerInventory.objects.filter(  # noqa
-                    seller=seller,
-                    quantity__gte=item.get('quantity', 0),
-                    item__name=item.get('name', '').capitalize(),
-                )
-                if inventory.exists():
-                    [inventory] = inventory
-                    price = inventory.item.price.seller
-                    balance = buyer.balance
-                    processed = True
+                    item = get_object_or_404(Item, name=name)
+
+                    match operation:
+                        case 'buy':
+                            if BuyerInventory.objects.filter(  # noqa
+                                    buyer=buyer, item=item, quantity__gte=quantity
+                            ).exists():
+                                seller.balance -= item.price.seller * quantity
+                            else:
+                                raise TransactionException
+                        case 'sell':
+                            if SellerInventory.objects.filter(  # noqa
+                                    seller=seller, item=item, quantity__gte=quantity
+                            ).exists():
+                                seller.balance += item.price.buyer * quantity
+                            else:
+                                raise TransactionException
+
+                if seller.balance == seller.goal.balance:
+                    goal = seller.goal = Goal.objects.filter(  # noqa
+                        difficulty__gt=seller.goal.difficulty
+                    ).order_by('difficulty').first()
+
+                    BuyerInventory.objects.filter(buyer=buyer).delete()  # noqa
+                    SellerInventory.objects.filter(seller=seller).delete()  # noqa
+
+                    if goal:
+                        exec(goal.code)
+
+                    seller.save()
                 else:
-                    processed = False
-
-        t.status = 'completed' if processed else 'canceled'
-        t.save()
+                    raise TransactionException
+        except Exception as e:
+            t.status = 'canceled'
+            raise e
+        else:
+            t.status = 'completed'
+        finally:
+            t.save()
 
         return self.instance

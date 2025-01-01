@@ -42,7 +42,7 @@ class Goal(Timestamp):
     difficulty = models.PositiveIntegerField()
     balance = models.PositiveIntegerField()
     rank = models.CharField(max_length=20, choices=RANK_CHOICES, default='rookie')
-    code = models.TextField(null=True, blank=True)
+    json = models.JSONField(default=dict)
 
     def __str__(self):
         return f'Difficulty: {self.difficulty}. Balance: {self.balance}'
