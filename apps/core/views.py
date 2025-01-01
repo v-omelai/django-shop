@@ -1,7 +1,7 @@
 import logging
 import random
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import TemplateView
 from rest_framework.generics import UpdateAPIView, CreateAPIView
 
@@ -55,10 +55,16 @@ class GamePageView(TemplateView):
             cells = items + cells[len(items):]
         return cells
 
+    def dispatch(self, request, *args, **kwargs):
+        self.seller = seller = get_object_or_404(Seller, id=kwargs.get('seller'))  # noqa
+        if seller.goal is None:
+            return redirect('congratulations')
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        seller = get_object_or_404(Seller, id=kwargs.get('seller'))
-        buyer = seller.buyer
+        seller = self.seller
+        buyer = self.seller.buyer
         context.update({
             'seller': seller,
             'buyer': buyer,

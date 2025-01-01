@@ -52,23 +52,33 @@ class UpdateSellerSerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.Serializer):
+    OPERATION_CHOICES = [
+        ('buy', 'Buy'),
+        ('sell', 'Sell'),
+    ]
+
     name = serializers.CharField(max_length=255)
-    quantity = serializers.IntegerField()
+    quantity = serializers.IntegerField(min_value=1, default=1)
+    operation = serializers.ChoiceField(choices=OPERATION_CHOICES)
 
 
 class CreateTransactionSerializer(serializers.ModelSerializer):
-    buy = ItemSerializer(many=True, required=False)
-    sell = ItemSerializer(many=True, required=False)
+    items = ItemSerializer(many=True, write_only=True)
     processed = serializers.SerializerMethodField()
+    link = serializers.SerializerMethodField()
 
     class Meta:
         model = Transaction
-        fields = ['buyer', 'seller', 'buy', 'sell', 'processed']
-        read_only_fields = ['processed']
+        fields = ['buyer', 'seller', 'items', 'processed', 'link']
+        read_only_fields = ['processed', 'link']
 
     @extend_schema_field(serializers.BooleanField)
     def get_processed(self, instance):  # noqa
         return True if instance.status == 'completed' else False
+
+    @extend_schema_field(serializers.CharField)
+    def get_link(self, instance):  # noqa
+        return reverse('congratulations') if instance.seller.goal is None else None
 
     def save(self):
         validated_data = self.validated_data
