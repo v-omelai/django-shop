@@ -99,22 +99,32 @@ def populate():
         create_or_update_price(key, buyer, seller)
 
     for obj in (
-        (1, 8, 'rookie', ROOKIE),                # Sell: Apple, Carrot
-        (2, 12, 'experienced', EXPERIENCED),     # Buy: Carrot. Sell: Cabbage, Potatoes
-        (3, 189, 'professional', PROFESSIONAL),  # Buy: Cabbage, Potatoes. Sell: Raspberry
+        (1, 8, 'rookie', DIFFICULTY_FIRST_WITH_DISTRACTORS),          # Sell: Apple, Carrot
+        (2, 12, 'experienced', DIFFICULTY_SECOND_WITH_DISTRACTORS),   # Buy: Carrot. Sell: Cabbage, Potatoes
+        (3, 189, 'professional', DIFFICULTY_THIRD_WITH_DISTRACTORS),  # Buy: Cabbage, Potatoes. Sell: Raspberry
     ):
         difficulty, balance, rank, items = obj
         create_or_update_goal(difficulty, balance, rank, items)
 
 
-ROOKIE = {'items': {
+DIFFICULTY_FIRST = {'items': {
     'seller': [
         {'name': 'apple'},
         {'name': 'carrot'},
     ],
 }}
 
-EXPERIENCED = {'items': {
+DIFFICULTY_FIRST_WITH_DISTRACTORS = {'items': {
+    'seller': [
+        *DIFFICULTY_FIRST.get('items', {}).get('seller', []),
+    ],
+    'buyer': [
+        *DIFFICULTY_FIRST.get('items', {}).get('buyer', []),
+        {'name': 'orange'},
+    ]
+}}
+
+DIFFICULTY_SECOND = {'items': {
     'buyer': [
         {'name': 'carrot'},
     ],
@@ -124,7 +134,17 @@ EXPERIENCED = {'items': {
     ],
 }}
 
-PROFESSIONAL = {'items': {
+DIFFICULTY_SECOND_WITH_DISTRACTORS = {'items': {
+    'seller': [
+        *DIFFICULTY_SECOND.get('items', {}).get('seller', []),
+    ],
+    'buyer': [
+        *DIFFICULTY_SECOND.get('items', {}).get('buyer', []),
+        {'name': 'orange'},
+    ]
+}}
+
+DIFFICULTY_THIRD = {'items': {
     'buyer': [
         {'name': 'cabbage'},
         {'name': 'potatoes'},
@@ -133,6 +153,22 @@ PROFESSIONAL = {'items': {
         {'name': 'raspberry'},
     ],
 }}
+
+DIFFICULTY_THIRD_WITH_DISTRACTORS = {'items': {
+    'seller': [
+        *DIFFICULTY_THIRD.get('items', {}).get('seller', []),
+    ],
+    'buyer': [
+        *DIFFICULTY_THIRD.get('items', {}).get('buyer', []),
+        {'name': 'orange'},
+    ]
+}}
+
+DIFFICULTIES = [
+    DIFFICULTY_FIRST,
+    DIFFICULTY_SECOND,
+    DIFFICULTY_THIRD,
+]
 
 if __name__ == '__main__':
     populate()

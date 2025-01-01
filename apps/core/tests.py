@@ -2,7 +2,7 @@ from django.urls import reverse
 from django.test import TestCase
 
 from apps.core.models import Seller
-from populate import populate, ROOKIE, PROFESSIONAL, EXPERIENCED
+from populate import populate, DIFFICULTIES
 
 
 class SellerTransactionTest(TestCase):
@@ -25,7 +25,7 @@ class SellerTransactionTest(TestCase):
         response = self.client.post(reverse('api-create-transaction'), data, content_type='application/json')
         self.assertEqual(response.status_code, 422)
 
-        for dictionary in [ROOKIE, EXPERIENCED, PROFESSIONAL]:
+        for dictionary in DIFFICULTIES:
             data['items'] = dictionary['items']
             response = self.client.post(reverse('api-create-transaction'), data, content_type='application/json')
             self.assertEqual(response.status_code, 201)
