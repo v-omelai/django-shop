@@ -42,6 +42,7 @@ class Goal(Timestamp):
     difficulty = models.PositiveIntegerField()
     balance = models.PositiveIntegerField()
     rank = models.CharField(max_length=20, choices=RANK_CHOICES, default='rookie')
+    code = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f'Difficulty: {self.difficulty}. Balance: {self.balance}'
@@ -50,7 +51,6 @@ class Goal(Timestamp):
 class Entity(Timestamp):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=24)
-    balance = models.PositiveIntegerField()
 
     class Meta:
         abstract = True
@@ -66,6 +66,7 @@ class Buyer(Entity):
 
 # Player
 class Seller(Entity):
+    balance = models.PositiveIntegerField()
     image = models.ImageField(upload_to='sellers/', default='sellers/profile.png')
 
     buyer = models.OneToOneField(Buyer, on_delete=models.CASCADE, null=False, blank=False, related_name='seller')

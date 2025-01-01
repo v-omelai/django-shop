@@ -56,7 +56,7 @@ class GamePageView(TemplateView):
         return cells
 
     def dispatch(self, request, *args, **kwargs):
-        self.seller = seller = get_object_or_404(Seller, id=kwargs.get('seller'))  # noqa
+        seller = self.seller = get_object_or_404(Seller, id=kwargs.get('seller'))  # noqa
         if seller.goal is None:
             return redirect('congratulations')
         return super().dispatch(request, *args, **kwargs)
