@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
+from apps.core.forms import GoalForm
 from apps.core.models import *
 
 
@@ -47,11 +48,15 @@ class SellerAdmin(TimestampAdmin):
         return deleted_objects, model_count, perms_needed, protected
 
 
+class GoalAdmin(TimestampAdmin):
+    form = GoalForm
+
+
 admin.site.register(Item, TimestampAdmin)
 admin.site.register(Price, PriceAdmin)
 admin.site.register(Buyer, TimestampAdmin)
 admin.site.register(Seller, SellerAdmin)
 admin.site.register(BuyerInventory, TimestampAdmin)
 admin.site.register(SellerInventory, TimestampAdmin)
-admin.site.register(Goal, TimestampAdmin)
+admin.site.register(Goal, GoalAdmin)
 admin.site.register(Transaction, TimestampAdmin)

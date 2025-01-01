@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'apps.core',
     'rest_framework',
     'drf_spectacular',
+    'django_ace',
     'django_cleanup.apps.CleanupConfig',
 ]
 
