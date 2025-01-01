@@ -55,8 +55,8 @@ class ItemSerializer(serializers.Serializer):
 
 
 class EntitySerializer(serializers.Serializer):
-    buyer = ItemSerializer(many=True, write_only=True, required=False)
-    seller = ItemSerializer(many=True, write_only=True, required=False)
+    buyer = ItemSerializer(many=True, required=False)
+    seller = ItemSerializer(many=True, required=False)
 
 
 class CreateTransactionSerializer(serializers.ModelSerializer):

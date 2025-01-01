@@ -19,7 +19,7 @@ class SellerTransactionTest(TestCase):
         data = {
             'buyer': buyer.id,
             'seller': seller.id,
-            'items': {'buyer': [], 'seller': []},
+            'items': {},
         }
 
         response = self.client.post(reverse('api-create-transaction'), data, content_type='application/json')
