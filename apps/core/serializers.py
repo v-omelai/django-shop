@@ -85,10 +85,12 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
         t = self.instance = Transaction.objects.create(buyer=buyer, seller=seller)  # noqa
 
         try:
+            # Game over check
             if seller.goal is None:
                 raise TransactionException
 
             with transaction.atomic():
+                # Player buys
                 for dictionary in items.get('buyer', []):
                     item, quantity = Helper.Item.get(dictionary)
                     if BuyerInventory.objects.filter(  # noqa
@@ -97,7 +99,7 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                         seller.balance -= item.price.seller * quantity
                     else:
                         raise TransactionException
-
+                # Player sells
                 for dictionary in items.get('seller', []):
                     item, quantity = Helper.Item.get(dictionary)
                     if SellerInventory.objects.filter(  # noqa
@@ -108,6 +110,7 @@ class CreateTransactionSerializer(serializers.ModelSerializer):
                         raise TransactionException
 
                 if seller.balance == seller.goal.balance:
+                    # Move player
                     goal = seller.goal = Goal.objects.filter(  # noqa
                         difficulty__gt=seller.goal.difficulty
                     ).order_by('difficulty').first()
