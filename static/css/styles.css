@@ -54,6 +54,10 @@ body {
 
 .sell {}
 
+div.clickable:hover {
+    cursor: pointer;
+}
+
 article.congratulations {
     background-color: #000000;
     color: #ffd900;

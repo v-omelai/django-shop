@@ -1,20 +1,19 @@
 <div class="grid no-space no-round">
     {% for i in inventory %}
-        <div class="s2 fill tiny-margin tiny-padding center-align middle-align">
             {% if i == "&nbsp;" %}
-                {{ i|safe }}
+                {% with empty=True value=i|safe %}
+                    {% include "components/cell.html" %}
+                {% endwith %}
             {% else %}
-                {% if i.quantity > 1 %}
-                    <div class="badge no-round primary quantity">{{ i.quantity }}</div>
+                {% if entity == "buyer" %}
+                    {% with empty=False entity=entity name=i.item.name quantity=i.quantity url=i.item.image.url price=i.item.price.buyer %}
+                        {% include "components/cell.html" %}
+                    {% endwith %}
+                {% elif entity == "seller" %}
+                    {% with empty=False entity=entity name=i.item.name quantity=i.quantity url=i.item.image.url price=i.item.price.seller %}
+                        {% include "components/cell.html" %}
+                    {% endwith %}
                 {% endif %}
-                <img class="item" src="{{ i.item.image.url }}">
-                <div class="tooltip no-space top">
-                    {{ i.item.name }}
-                    {% if entity == "buyer" %}{{ i.item.price.buyer }}
-                    {% elif entity == "seller" %}{{ i.item.price.seller }}
-                    {% endif %} UAH
-                </div>
             {% endif %}
-        </div>
     {% endfor %}
 </div>
