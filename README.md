@@ -1,11 +1,16 @@
 # Useful commands
 
+## Initialize
+
+- **Command Prompt or PowerShell**:`.\initialize.bat`
+- **macOS or Linux Terminal**: `source initialize.sh`
+
 ## Venv
 
 - `python -m venv venv`
-- **Command Prompt (CMD)**: `.\venv\Scripts\activate`
-- **PowerShell (PS)**: `.\venv\Scripts\Activate.ps1`
-- **macOS/Linux Terminal**: `source venv/bin/activate`
+- **Command Prompt**: `.\venv\Scripts\activate`
+- **PowerShell**: `.\venv\Scripts\Activate.ps1`
+- **macOS or Linux Terminal**: `source venv/bin/activate`
 - `deactivate`
 
 ## Pip
