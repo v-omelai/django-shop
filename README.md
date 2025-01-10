@@ -1,6 +1,6 @@
 # Useful commands
 
-## Virtual environment
+## Venv
 
 - `python -m venv venv`
 - **Command Prompt (CMD)**: `.\venv\Scripts\activate`
@@ -8,14 +8,14 @@
 - **macOS/Linux Terminal**: `source venv/bin/activate`
 - `deactivate`
 
-## Requirements
+## Pip
 
 - `pip list`
 - `pip freeze > requirements.txt`
 - `pip install -r requirements.txt`
 - `pip uninstall -r requirements.txt -y`
 
-## Django stuff
+## Django
 
 - `python populate.py`
 - `python manage.py test apps`
@@ -25,3 +25,11 @@
 - `python manage.py collectstatic`
 - `python manage.py createsuperuser`
 - `python manage.py runserver`
+
+## Terraform
+
+- `.\terraform init`
+- `.\terraform fmt`
+- `.\terraform validate`
+- `.\terraform plan -var-file=terraform.tfvars`
+- `.\terraform apply -var-file=terraform.tfvars`
