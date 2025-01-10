@@ -3,8 +3,9 @@
 ## Virtual environment
 
 - `python -m venv venv`
-- **Windows**: `call venv/Scripts/activate`
-- **Linux or Mac**: `source venv/bin/activate`
+- **Command Prompt (CMD)**: `.\venv\Scripts\activate`
+- **PowerShell (PS)**: `.\venv\Scripts\Activate.ps1`
+- **macOS/Linux Terminal**: `source venv/bin/activate`
 - `deactivate`
 
 ## Requirements
