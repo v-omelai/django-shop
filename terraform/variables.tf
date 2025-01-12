@@ -23,7 +23,12 @@ variable "size" {
   type        = string
 }
 
-variable "ssh" {
+variable "private" {
+  description = "Path to your SSH private key"
+  type        = string
+}
+
+variable "public" {
   description = "Path to your SSH public key"
   type        = string
 }

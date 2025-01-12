@@ -50,5 +50,6 @@
 - `.\terraform init`
 - `.\terraform fmt`
 - `.\terraform validate`
-- `.\terraform plan -var-file=terraform.tfvars`
-- `.\terraform apply -var-file=terraform.tfvars`
+- `.\terraform plan`
+- `.\terraform apply`
+- `.\terraform destroy`
