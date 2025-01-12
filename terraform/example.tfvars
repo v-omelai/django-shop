@@ -1,0 +1,7 @@
+token   = "DigitalOcean API token (for authentication with the provider)"
+image   = "The image to use for the DigitalOcean Droplet"
+name    = "The name of the Droplet to be created"
+region  = "The region where the Droplet will be created"
+size    = "The size of the Droplet"
+private = "Path to the private SSH key"
+public  = "Path to the public SSH key"
