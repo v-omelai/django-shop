@@ -1,0 +1,35 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./docker/web/Dockerfile
+    command: gunicorn shop.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - media:/app/media
+      - collected-static:/app/collected-static
+    expose:
+      - 8000
+    env_file:
+      - .env.prod
+    depends_on:
+      - db
+  db:
+    image: postgres:17.2-alpine
+    volumes:
+      - data:/var/lib/postgresql/data/
+    env_file:
+      - .env.prod
+  nginx:
+    build: ./docker/nginx
+    volumes:
+      - media:/app/media
+      - collected-static:/app/collected-static
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+
+volumes:
+  data:
+  media:
+  collected-static:

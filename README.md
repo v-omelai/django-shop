@@ -31,6 +31,19 @@
 - `python manage.py createsuperuser`
 - `python manage.py runserver`
 
+
+# Docker
+
+- `docker ps -a`
+- `docker system prune -a`
+
+## Docker-compose
+
+- `docker-compose up -d --build`
+- `docker-compose ps -a`
+- `docker-compose logs`
+- `docker-compose down -v`
+
 ## Terraform
 
 - `.\terraform init`
