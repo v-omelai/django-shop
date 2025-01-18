@@ -47,9 +47,8 @@
 
 ## Terraform
 
-- `.\terraform init`
-- `.\terraform fmt`
-- `.\terraform validate`
-- `.\terraform plan`
-- `.\terraform apply`
-- `.\terraform destroy`
+- `terraform fmt -recursive`
+- `terraform -chdir=terraform init`
+- `terraform -chdir=terraform plan`
+- `terraform -chdir=terraform apply`
+- `terraform -chdir=terraform destroy`
