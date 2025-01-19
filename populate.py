@@ -119,9 +119,9 @@ def populate():
         create_or_update_price(key, buyer, seller)
 
     for obj in (
-        (1, 8, 'rookie', DIFFICULTY_FIRST_WITH_DISTRACTORS),          # Sell: Apple, Carrot
-        (2, 12, 'experienced', DIFFICULTY_SECOND_WITH_DISTRACTORS),   # Buy: Carrot. Sell: Cabbage, Potatoes
-        (3, 189, 'professional', DIFFICULTY_THIRD_WITH_DISTRACTORS),  # Buy: Cabbage, Potatoes. Sell: Raspberry
+        (1, 12, 'rookie', DIFFICULTY_FIRST_WITH_DISTRACTORS),         # Sell: Apple x2, Carrot
+        (2, 16, 'experienced', DIFFICULTY_SECOND_WITH_DISTRACTORS),   # Buy: Carrot. Sell: Cabbage, Potatoes
+        (3, 193, 'professional', DIFFICULTY_THIRD_WITH_DISTRACTORS),  # Buy: Cabbage, Potatoes. Sell: Raspberry
     ):
         difficulty, balance, rank, items = obj
         create_or_update_goal(difficulty, balance, rank, items)
@@ -129,7 +129,7 @@ def populate():
 
 DIFFICULTY_FIRST = {'items': {
     'seller': [
-        {'name': 'apple'},
+        {'name': 'apple', 'quantity': 2},
         {'name': 'carrot'},
     ],
 }}

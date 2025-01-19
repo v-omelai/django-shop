@@ -23,7 +23,7 @@ async function sendRequest(data) {
 }
 
 async function confirmDeal() {
-    data['items']['seller'].push({name: 'carrot', quantity: 1}, {name: 'apple', quantity: 1});
+    data['items']['seller'].push({name: 'carrot', quantity: 1}, {name: 'apple', quantity: 2});
     await sendRequest(data);
 }
 
@@ -31,9 +31,10 @@ async function cancelDeal() {
     await reloadInventory();
 }
 
+let balance = SELLER_BALANCE;
 let data = {
-    seller: API_SELLER_ID,
-    buyer: API_BUYER_ID,
+    seller: SELLER_ID,
+    buyer: BUYER_ID,
     items: {
         buyer: [],
         seller: [],

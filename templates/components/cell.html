@@ -4,7 +4,7 @@
     <div class="s2 fill tiny-margin tiny-padding center-align middle-align clickable"
          data-entity="{{ entity}}" data-name="{{ name }}" data-quantity="{{ quantity }}" data-price="{{ price }}">
         {% if quantity > 1 %}
-            <div class="badge no-round primary quantity">{{ quantity }}</div>
+            <div class="badge no-round primary quantity" id="{{ name|lower}}-badge-quantity">{{ quantity }}</div>
         {% endif %}
         <img class="item" src="{{ url }}">
         <div class="tooltip no-space top">{{ name }} {{ price }} UAH</div>
