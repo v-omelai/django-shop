@@ -44,5 +44,17 @@ let data = {
 const buttonConfirm = document.querySelector('#button-confirm');
 const buttonCancel = document.querySelector('#button-cancel');
 
+const sellerBalance = document.querySelector('#seller-balance');
+
+const blockBuy = document.querySelectorAll('#block-buy');
+const blockBuyer = document.querySelectorAll('#block-buyer');
+const blockSell = document.querySelectorAll('#block-sell');
+const blockSeller = document.querySelectorAll('#block-seller');
+
+//sellerBalance.innerText = `Your balance will be ${ balance } UAH`;
+//
+//console.log(blockBuy);
+//console.log(blockSell);
+
 buttonConfirm.addEventListener('click', confirmDeal);
 buttonCancel.addEventListener('click', cancelDeal);

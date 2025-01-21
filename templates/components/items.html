@@ -1,4 +1,4 @@
-<div class="grid no-space no-round">
+<div id="{{ identifier }}" class="grid no-space no-round">
     {% for i in inventory %}
             {% if i == "&nbsp;" %}
                 {% with empty=True value=i|safe %}

@@ -6,7 +6,7 @@
             <p>Rank: Legend</p>
         </div>
     </div>
-    {% with value=inventory.buyer entity="buyer" %}
-        {% include 'components/items.html' with inventory=value entity=entity %}
+    {% with identifier="block-buyer" value=inventory.buyer entity="buyer" %}
+        {% include 'components/items.html' with identifier=identifier inventory=value entity=entity %}
     {% endwith %}
 </article>

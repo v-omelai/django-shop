@@ -5,7 +5,7 @@
             <p>Buy from {{ buyer.name }}</p>
         </div>
     </div>
-    {% with value=inventory.empty %}
-        {% include 'components/items.html' with inventory=value %}
+    {% with identifier="block-buy" value=inventory.empty %}
+        {% include 'components/items.html' with identifier=identifier inventory=value %}
     {% endwith %}
 </article>
