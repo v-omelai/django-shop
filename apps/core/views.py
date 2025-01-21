@@ -48,7 +48,7 @@ class GamePageView(TemplateView):
 
     @classmethod
     def scale(cls, entity=None):
-        cells = ['&nbsp;'] * 12
+        cells = [None, ] * 12
         if entity:
             inventory = entity.inventory.all()
             items = list(inventory)

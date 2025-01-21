@@ -36,6 +36,8 @@
         const SELLER_BALANCE = {{ seller.balance }};
         const SELLER_ID = "{{ seller.id }}";
         const BUYER_ID = "{{ buyer.id }}";
+        const CELL_EMPTY = `{% include 'components/cell/empty.html' %}`.trim();
+        const CELL_QUANTITY = `{% include 'components/cell/quantity.html' %}`.trim();
     </script>
     <script src="{% static 'js/components/message.js' %}"></script>
     <script src="{% static 'js/components/settings.js' %}"></script>

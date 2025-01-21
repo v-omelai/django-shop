@@ -1,17 +1,15 @@
 <div id="{{ identifier }}" class="grid no-space no-round">
     {% for i in inventory %}
-            {% if i == "&nbsp;" %}
-                {% with empty=True value=i|safe %}
-                    {% include "components/cell.html" %}
-                {% endwith %}
+            {% if i is None %}
+                {% include "components/cell/empty.html" %}
             {% else %}
                 {% if entity == "buyer" %}
                     {% with empty=False entity=entity name=i.item.name quantity=i.quantity url=i.item.image.url price=i.item.price.buyer %}
-                        {% include "components/cell.html" %}
+                        {% include "components/cell/item.html" %}
                     {% endwith %}
                 {% elif entity == "seller" %}
                     {% with empty=False entity=entity name=i.item.name quantity=i.quantity url=i.item.image.url price=i.item.price.seller %}
-                        {% include "components/cell.html" %}
+                        {% include "components/cell/item.html" %}
                     {% endwith %}
                 {% endif %}
             {% endif %}

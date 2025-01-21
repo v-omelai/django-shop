@@ -46,15 +46,16 @@ const buttonCancel = document.querySelector('#button-cancel');
 
 const sellerBalance = document.querySelector('#seller-balance');
 
-const blockBuy = document.querySelectorAll('#block-buy');
-const blockBuyer = document.querySelectorAll('#block-buyer');
-const blockSell = document.querySelectorAll('#block-sell');
-const blockSeller = document.querySelectorAll('#block-seller');
+const blockBuy = document.querySelector('#block-buy');
+const blockBuyer = document.querySelector('#block-buyer');
+const blockSell = document.querySelector('#block-sell');
+const blockSeller = document.querySelector('#block-seller');
+
+const cellEmpty = CELL_EMPTY;
+const cellQuantity = CELL_QUANTITY;
 
 //sellerBalance.innerText = `Your balance will be ${ balance } UAH`;
-//
-//console.log(blockBuy);
-//console.log(blockSell);
+//blockBuy.innerHTML = cellEmpty.repeat(12);
 
 buttonConfirm.addEventListener('click', confirmDeal);
 buttonCancel.addEventListener('click', cancelDeal);
