@@ -1,11 +1,33 @@
-# Useful commands
+## Overview
 
-## Initialize
+A shop on **Django** using **Terraform**, **Docker** & **Docker Compose**. Inspired by **S.T.A.L.K.E.R.**
+
+## Pages
+
+### Loading
+
+![Loading](pages/loading.jpg)
+
+### Game
+
+![Game](pages/game.jpg)
+
+### Settings
+
+![Settings](pages/settings.jpg)
+
+### Congratulations
+
+![Congratulations](pages/congratulations.jpg)
+
+## Commands
+
+### Initialize
 
 - **Command Prompt or PowerShell**:`.\initialize.bat`
 - **macOS or Linux Terminal**: `source initialize.sh`
 
-## Venv
+### Venv
 
 - `python -m venv venv`
 - **Command Prompt**: `.\venv\Scripts\activate`
@@ -13,14 +35,14 @@
 - **macOS or Linux Terminal**: `source venv/bin/activate`
 - `deactivate`
 
-## Pip
+### Pip
 
 - `pip list`
 - `pip freeze > requirements.txt`
 - `pip install -r requirements.txt`
 - `pip uninstall -r requirements.txt -y`
 
-## Django
+### Django
 
 - `python populate.py`
 - `python manage.py test apps`
@@ -32,12 +54,12 @@
 - `python manage.py runserver`
 
 
-## Docker
+### Docker
 
 - `docker ps -a`
 - `docker system prune -a`
 
-## Docker-compose
+### Docker-compose
 
 - `docker-compose build`
 - `docker-compose up -d`
@@ -45,7 +67,7 @@
 - `docker-compose logs`
 - `docker-compose down -v`
 
-## Terraform
+### Terraform
 
 - `terraform fmt -recursive`
 - `terraform -chdir=terraform init`
