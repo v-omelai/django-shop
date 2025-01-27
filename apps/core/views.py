@@ -2,6 +2,7 @@ import logging
 import random
 
 from django.shortcuts import get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.views.generic import TemplateView
 from rest_framework.generics import UpdateAPIView, CreateAPIView
 
@@ -72,6 +73,15 @@ class GamePageView(TemplateView):
                 'empty': self.scale(),
                 'seller': self.scale(seller),
                 'buyer': self.scale(buyer),
+            },
+            'templates': {
+                'components': {
+                    'cell': {
+                        'empty': render_to_string('components/cell/empty.html').strip(),
+                        'quantity': render_to_string('components/cell/quantity.html',
+                                                     {'quantity': '{{ quantity }}'}).strip(),
+                    }
+                }
             }
         })
         return context
