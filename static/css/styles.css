@@ -58,11 +58,6 @@ div.clickable:hover {
     cursor: pointer;
 }
 
-article.congratulations {
-    background-color: #000000;
-    color: #ffd900;
-}
-
 button.confirm, div.success {
     background-color: #78dc77;
 }

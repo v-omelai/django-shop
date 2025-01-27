@@ -8,5 +8,8 @@
             {% include 'components/congratulations.html' %}
         </div>
     </main>
+    <script>
+        const LOADING_URL = "{% url 'loading' %}";
+    </script>
     <script src="{% static 'js/congratulations.js' %}"></script>
 {% endblock content %}

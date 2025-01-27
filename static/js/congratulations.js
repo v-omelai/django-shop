@@ -12,4 +12,13 @@ function showSparkles(seconds) {
     return wrapper
 }
 
+async function createGame() {
+    localStorage.removeItem('link');
+    window.success(3);
+    await window.sleep(4);
+    window.location.href = LOADING_URL;
+}
+
+const buttonCreateGame = document.querySelector('#create-game');
+buttonCreateGame.addEventListener('click', createGame);
 document.addEventListener('DOMContentLoaded', showSparkles(1));

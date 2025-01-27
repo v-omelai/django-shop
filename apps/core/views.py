@@ -36,9 +36,9 @@ class CongratulationsPageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context.update({
             'text': random.choice([
-                '🥳 Congratulations!',
-                '🏆 You\'ve nailed it!',
-                '🎮 The game is over!',
+                'Congratulations!',
+                'You\'ve nailed it!',
+                'The game is over!',
             ])
         })
         return context
