@@ -31,13 +31,11 @@ async function cancelDeal() {
 }
 
 async function handleButtons() {
-    if (balanceCurrent === balanceGoal) buttonConfirm.removeAttribute('disabled')
-    else buttonConfirm.setAttribute('disabled', 'disabled');
-    if (balanceCurrent === balanceInitial) buttonCancel.setAttribute('disabled', 'disabled')
-    else buttonCancel.removeAttribute('disabled');
+    buttonConfirm.toggleAttribute('disabled', balanceCurrent !== balanceGoal);
+    buttonCancel.toggleAttribute('disabled', balanceCurrent === balanceInitial);
 }
 
-async function handleLeftBlock(item, items, operator, rightBlock) {
+async function handleItems(item, items, operator, fromBlock, toBlock) {
     const cloned = item.cloneNode(true);
     const itemBadge = item.querySelector('.quantity');
     const clonedBadge = cloned.querySelector('.quantity');
@@ -64,14 +62,14 @@ async function handleLeftBlock(item, items, operator, rightBlock) {
     if (clonedBadge) clonedBadge.remove();
     if (index === -1) {
         cloned.dataset.quantity = 1;
-        rightBlock.querySelector('.empty').replaceWith(cloned);
+        toBlock.querySelector('.empty').replaceWith(cloned);
         items.push({name: nameLower, quantity: 1});
     } else {
-        let rightCell = rightBlock.querySelector(`[data-name="${ name }"]`);
-        let rightCellQuantity = parseInt(rightCell.dataset.quantity);
-        cloned.dataset.quantity = rightCellQuantity + 1;
-        cloned.insertAdjacentHTML('afterbegin', cellQuantity.replace('{{ quantity }}', rightCellQuantity + 1));
-        rightCell.replaceWith(cloned);
+        let toCell = toBlock.querySelector(`[data-name="${ name }"]`);
+        let toCellQuantity = parseInt(toCell.dataset.quantity);
+        cloned.dataset.quantity = toCellQuantity + 1;
+        cloned.insertAdjacentHTML('afterbegin', cellQuantity.replace('{{ quantity }}', toCellQuantity + 1));
+        toCell.replaceWith(cloned);
         items[index]['quantity'] += 1;
     };
 
@@ -82,15 +80,11 @@ async function handleLeftBlock(item, items, operator, rightBlock) {
 }
 
 async function buy(e) {
-    const item = e.currentTarget;
-    const items = data['items']['buyer'];
-    await handleLeftBlock(item, items, '-', blockBuy);
+    await handleItems(e.currentTarget, data.items.buyer, '-', blockBuyer, blockBuy);
 }
 
 async function sell(e) {
-    const item = e.currentTarget;
-    const items = data['items']['seller'];
-    await handleLeftBlock(item, items, '+', blockSell);
+    await handleItems(e.currentTarget, data.items.seller, '+', blockSeller, blockSell);
 }
 
 const cellEmpty = CELL_EMPTY;
