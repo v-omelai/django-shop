@@ -35,56 +35,105 @@ async function handleButtons() {
     buttonCancel.toggleAttribute('disabled', balanceCurrent === balanceInitial);
 }
 
-async function handleItems(item, items, operator, fromBlock, toBlock) {
-    const cloned = item.cloneNode(true);
-    const itemBadge = item.querySelector('.quantity');
-    const clonedBadge = cloned.querySelector('.quantity');
-    const quantity = parseInt(item.dataset.quantity);
-    const name = item.dataset.name;
+async function increaseBalance(amount) {
+    balanceCurrent += parseInt(amount);
+}
+
+async function decreaseBalance(amount) {
+    balanceCurrent -= parseInt(amount);
+}
+
+async function increaseQuantity(items, name) {
     const nameLower = name.toLowerCase();
-    const price = parseInt(item.dataset.price);
-    const index = items.findIndex(item => item.name === nameLower);
-
-    // Left block
-
-    if (quantity === 1) {
-        item.outerHTML = cellEmpty;
-    } else if (quantity === 2) {
-        if (itemBadge) itemBadge.remove();
-        item.dataset.quantity = 1;
-    } else {
-        if (itemBadge) itemBadge.innerText = quantity - 1;
-        item.dataset.quantity -= 1;
-    };
-
-    // Right block
-
-    if (clonedBadge) clonedBadge.remove();
+    const index = items.findIndex(i => i.name === nameLower);
     if (index === -1) {
-        cloned.dataset.quantity = 1;
-        toBlock.querySelector('.empty').replaceWith(cloned);
         items.push({name: nameLower, quantity: 1});
     } else {
+        items[index]['quantity'] += 1
+    }
+}
+
+async function decreaseQuantity(items, name) {
+    const nameLower = name.toLowerCase();
+    const index = items.findIndex(i => i.name === nameLower);
+    if (items[index]['quantity'] === 1) {
+        items.splice(index, 1);
+    } else {
+        items[index]['quantity'] -= 1
+    }
+}
+
+async function handleFirstSide(item, badge, quantity) {
+    const parsedQuantity = parseInt(quantity);
+    if (parsedQuantity === 1) {
+        item.outerHTML = cellEmpty;
+    } else if (parsedQuantity === 2) {
+        badge.remove();
+        item.dataset.quantity = 1;
+    } else {
+        badge.innerText = parsedQuantity - 1;
+        item.dataset.quantity -= 1;
+    };
+}
+
+async function handleSecondSide(items, toItem, toItemBadge, toBlock) {
+    const nameLower = name.toLowerCase();
+    const index = items.findIndex(i => i.name === nameLower);
+    if (toItemBadge) toItemBadge.remove();
+    if (index === -1) {
+        toItem.dataset.quantity = 1;
+        toBlock.querySelector('.empty').replaceWith(toItem);
+    } else {
+        // TODO: Fix
         let toCell = toBlock.querySelector(`[data-name="${ name }"]`);
         let toCellQuantity = parseInt(toCell.dataset.quantity);
-        cloned.dataset.quantity = toCellQuantity + 1;
-        cloned.insertAdjacentHTML('afterbegin', cellQuantity.replace('{{ quantity }}', toCellQuantity + 1));
-        toCell.replaceWith(cloned);
-        items[index]['quantity'] += 1;
+        toItem.dataset.quantity = toCellQuantity + 1;
+        toItem.insertAdjacentHTML('afterbegin', cellQuantity.replace('{{ quantity }}', toCellQuantity + 1));
+        toCell.replaceWith(toItem);
     };
+    return toItem
+}
 
-    if (operator === '+') balanceCurrent += price;
-    if (operator === '-') balanceCurrent -= price;
-    sellerBalance.innerText = `Your balance will be ${ balanceCurrent } UAH`;
+async function handleItems(fromItem, items, funcBalance, funcQuantity, fromBlock, toBlock) {
+    let toItem = fromItem.cloneNode(true);
+
+    const toItemBadge = toItem.querySelector('.quantity');
+    const fromItemBadge = fromItem.querySelector('.quantity');
+
+    const name = fromItem.dataset.name;
+    const price = fromItem.dataset.price;
+    const quantity = fromItem.dataset.quantity;
+
+    await handleFirstSide(fromItem, fromItemBadge, quantity);
+    toItem = await handleSecondSide(items, toItem, toItemBadge, toBlock);
+
+    toItem.addEventListener('click', async (e) => {
+        let b = funcBalance === increaseBalance ? decreaseBalance : increaseBalance
+        let q = funcQuantity === increaseQuantity ? decreaseQuantity : increaseQuantity
+        await handleItems(toItem, items, b, q, toBlock, fromBlock)
+    });
+
+    await funcQuantity(items, name);
+    await funcBalance(price);
     await handleButtons();
+
+    sellerBalance.innerText = `Your balance will be ${ balanceCurrent } UAH`;
 }
 
 async function buy(e) {
-    await handleItems(e.currentTarget, data.items.buyer, '-', blockBuyer, blockBuy);
+    await handleItems(
+        e.currentTarget, data.items.buyer,
+        decreaseBalance, increaseQuantity,
+        blockBuyer, blockBuy,
+    );
 }
 
 async function sell(e) {
-    await handleItems(e.currentTarget, data.items.seller, '+', blockSeller, blockSell);
+    await handleItems(
+        e.currentTarget, data.items.seller,
+        increaseBalance, increaseQuantity,
+        blockSeller, blockSell,
+    );
 }
 
 const cellEmpty = CELL_EMPTY;
