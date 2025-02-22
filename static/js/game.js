@@ -63,35 +63,31 @@ async function decreaseQuantity(items, name) {
     }
 }
 
-async function handleFirstSide(item, badge, quantity) {
+async function handleFirstSide(quantity, fromItem, fromItemBadge) {
     const parsedQuantity = parseInt(quantity);
     if (parsedQuantity === 1) {
-        item.outerHTML = cellEmpty;
+        fromItem.outerHTML = cellEmpty;
     } else if (parsedQuantity === 2) {
-        badge.remove();
-        item.dataset.quantity = 1;
+        fromItemBadge.remove();
+        fromItem.dataset.quantity = 1;
     } else {
-        badge.innerText = parsedQuantity - 1;
-        item.dataset.quantity -= 1;
+        fromItemBadge.innerText = parsedQuantity - 1;
+        fromItem.dataset.quantity -= 1;
     };
 }
 
-async function handleSecondSide(items, toItem, toItemBadge, toBlock) {
-    const nameLower = name.toLowerCase();
-    const index = items.findIndex(i => i.name === nameLower);
+async function handleSecondSide(items, name, toItem, toItemBadge, toBlock) {
+    const toCell = toBlock.querySelector(`[data-name="${ name }"]`);
     if (toItemBadge) toItemBadge.remove();
-    if (index === -1) {
-        toItem.dataset.quantity = 1;
-        toBlock.querySelector('.empty').replaceWith(toItem);
-    } else {
-        // TODO: Fix
-        let toCell = toBlock.querySelector(`[data-name="${ name }"]`);
-        let toCellQuantity = parseInt(toCell.dataset.quantity);
+    if (toCell) {
+        const toCellQuantity = parseInt(toCell.dataset.quantity);
         toItem.dataset.quantity = toCellQuantity + 1;
         toItem.insertAdjacentHTML('afterbegin', cellQuantity.replace('{{ quantity }}', toCellQuantity + 1));
         toCell.replaceWith(toItem);
-    };
-    return toItem
+    } else {
+        toItem.dataset.quantity = 1;
+        toBlock.querySelector('.empty').replaceWith(toItem);
+    }
 }
 
 async function handleItems(fromItem, items, funcBalance, funcQuantity, fromBlock, toBlock) {
@@ -104,8 +100,8 @@ async function handleItems(fromItem, items, funcBalance, funcQuantity, fromBlock
     const price = fromItem.dataset.price;
     const quantity = fromItem.dataset.quantity;
 
-    await handleFirstSide(fromItem, fromItemBadge, quantity);
-    toItem = await handleSecondSide(items, toItem, toItemBadge, toBlock);
+    await handleFirstSide(quantity, fromItem, fromItemBadge);
+    await handleSecondSide(items, name, toItem, toItemBadge, toBlock);
 
     toItem.addEventListener('click', async (e) => {
         let b = funcBalance === increaseBalance ? decreaseBalance : increaseBalance
