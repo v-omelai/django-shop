@@ -24,6 +24,7 @@ A shop on **Django** using **Terraform**, **Docker** & **Docker Compose**. Inspi
 
 ### Initialize
 
+- `cd scripts`
 - **Command Prompt or PowerShell**:`.\initialize.bat`
 - **macOS or Linux Terminal**: `source initialize.sh`
 
