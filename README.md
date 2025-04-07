@@ -68,7 +68,14 @@ A shop on **Django** using **Terraform**, **Docker** & **Docker Compose**. Inspi
 - `docker-compose logs`
 - `docker-compose down -v`
 
+### Choco
+
+- `choco install terraform`
+
 ### Terraform
+
+> [!NOTE]  
+> The `local-exec` provisioner commands are intended to run on Windows.
 
 - `terraform fmt -recursive`
 - `terraform -chdir=terraform init`
